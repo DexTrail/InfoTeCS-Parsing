@@ -106,3 +106,6 @@ venv.bak/
 # Visual Studio and Visual Studio Code directories
 .vs/
 .vscode/
+
+# Other
+TODO.txt
