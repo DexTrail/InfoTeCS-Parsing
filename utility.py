@@ -13,6 +13,39 @@ import time
 from bs4 import BeautifulSoup as bs
 
 
+def get_soup(url_or_file: str, headers: dict = None, session: requests.Session = None):
+    """
+    Возвращяет объект супа, из переданного URL или файла
+
+    :param url_or_file: URL или путь к файлу
+    :param headers: заголовки для запроса
+    :param session: сессия, в которой выполняется запрос
+    :return: объект супа или None
+    """
+
+    # Если передан путь к файлу, читаем файл и возвращаем объект супа (нужно для локальных тестов)
+    if not (url_or_file.startswith('http://') or url_or_file.startswith('https://')):
+        with open(url_or_file, encoding='utf-8') as fp:
+            soup = bs(fp, 'lxml')
+
+        return soup
+
+    # Если передан URL
+
+    if not session:
+        session = requests.session()
+
+    request = session.get(url_or_file, headers=headers)
+
+    # Если запрос вернул код, отличный от 200, считаем, что соединение не удалось, и пишем ошибку в консоль
+    if request.status_code != 200:
+        print("Can't get URL {}".format(url_or_file))
+        print("Status code {}\n".format(request.status_code))
+        return
+
+    return bs(request.content, 'lxml')
+
+
 def main():
     pass
 
