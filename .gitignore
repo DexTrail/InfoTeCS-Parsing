@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Visual Studio and Visual Studio Code directories
+.vs/
+.vscode/
