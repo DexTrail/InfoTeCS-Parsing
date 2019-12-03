@@ -11,19 +11,20 @@ Last modified: 02/12/2019
 import requests
 import time
 from bs4 import BeautifulSoup as bs
+from typing import Optional
 
 
-def get_soup(url_or_file: str, headers: dict = None, session: requests.Session = None):
+def get_soup(url_or_file: str, headers: dict = None, session: requests.Session = None) -> Optional[bs]:
     """
     Возвращяет объект супа, из переданного URL или файла
 
     :param url_or_file: URL или путь к файлу
-    :param headers: заголовки для запроса
+    :param headers: заголовки запроса
     :param session: сессия, в которой выполняется запрос
     :return: объект супа или None
     """
 
-    # Если передан путь к файлу, читаем файл и возвращаем объект супа (нужно для локальных тестов)
+    # Если передан путь к файлу (для локальных тестов), читаем файл и возвращаем объект супа
     if not (url_or_file.startswith('http://') or url_or_file.startswith('https://')):
         with open(url_or_file, encoding='utf-8') as fp:
             soup = bs(fp, 'lxml')
@@ -32,6 +33,7 @@ def get_soup(url_or_file: str, headers: dict = None, session: requests.Session =
 
     # Если передан URL
 
+    # Возможно, сессия в данном случае не нужна, но пусть будет
     if not session:
         session = requests.session()
 
